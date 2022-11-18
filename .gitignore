@@ -1,0 +1,6 @@
+.vs
+.vscode
+**/.vs
+**/build
+**/bin/Debug/*.pdb
+**/.vscode
