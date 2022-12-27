@@ -15,12 +15,14 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/bin)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(Eigen3 CONFIG REQUIRED)
 
 set(PROJECT_SOURCES
         main.cpp
         widget.cpp
         widget.h
         widget.ui
+        drawwidget.h drawwidget.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -46,7 +48,7 @@ else()
     endif()
 endif()
 
-target_link_libraries(hw1 PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(hw1 PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Eigen3::Eigen)
 
 set_target_properties(hw1 PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
