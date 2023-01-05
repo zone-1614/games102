@@ -15,19 +15,32 @@ using std::vector;
 using Eigen::Vector2f;
 
 GLFWwindow* window = nullptr;
-int width = 1600;
-int height = 1200;
+int width = 1200;
+int height = 800;
 
+// canvas 是独立在 window 里面的一个子窗口, 记下它的左上和右下才能画图
 ImVec2 canvas_pos_ul = { 0.0f, 0.0f }; // upper left
 ImVec2 canvas_pos_br = { 0.0f, 0.0f }; // bottom right
 
+/**
+ * @brief 画线, 同时画点
+ * 
+ * @param poss 所有的点
+ * @param draw_list 
+ * @param line_col 线的颜色  数据类型ImU32经常用来存颜色
+ * @param point_col 点的颜色
+ */
 void PlotLineSegments(const vector<Vector2f> &poss, ImDrawList *draw_list, ImU32 line_col, ImU32 point_col) {
     for (size_t i = 1; i < poss.size(); i++) {
-        draw_list->AddLine({ canvas_pos_ul.x + poss[i - 1].x(), canvas_pos_br.y - poss[i - 1].y() }, { canvas_pos_ul.x + poss[i].x(), canvas_pos_br.y - poss[i].y() }, line_col, 2.0f);
+        draw_list->AddLine(
+            { canvas_pos_ul.x + poss[i - 1].x(), canvas_pos_br.y - poss[i - 1].y() }, // point 1
+            { canvas_pos_ul.x + poss[i].x(),     canvas_pos_br.y - poss[i].y() }, // point 2
+            line_col, // color
+            2.0f // thickness
+        );
     }
     for (const auto &pos : poss) {
         draw_list->AddCircleFilled({ canvas_pos_ul.x + pos.x(), canvas_pos_br.y - pos.y() }, 5.0f, point_col);
-        draw_list->AddCircle({ canvas_pos_ul.x + pos.x(), canvas_pos_br.y - pos.y() }, 5.0f, point_col);
     }
 }
 
@@ -54,7 +67,7 @@ bool Initialize() {
 
     glViewport(0, 0, width, height);
     std::cout << "GL_VERSION: " << glGetString(GL_VERSION) <<  std::endl;
-    std::cout << "GL_VENDOR: " << glGetString(GL_VENDOR) <<  std::endl;
+    std::cout << "GL_VENDOR: " << glGetString(GL_VENDOR) <<  std::endl; // opengl 的供应商(vendor), 我这里是 NVIDIA
     std::cout << "GL_RENDERER: " << glGetString(GL_RENDERER) <<  std::endl;
 
     IMGUI_CHECKVERSION();
@@ -62,7 +75,11 @@ bool Initialize() {
     ImGuiIO& io = ImGui::GetIO();
     (void) io;
 
-    ImGui::StyleColorsDark();
+    // 设置主题颜色, 有以下选择, 不填的话默认是Drak
+    // ImGui::StyleColorsDark();
+    // ImGui::StyleColorsClassic();
+    // ImGui::StyleColorsLight();
+    
 
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 330 core");
@@ -133,20 +150,21 @@ int main() {
 
     ImGuiIO &io = ImGui::GetIO();
     ImFontConfig font_config;
-    font_config.SizePixels = 24.0f;
+    font_config.SizePixels = 20.0f;
     io.Fonts->AddFontDefault(&font_config);
 
     while (!glfwWindowShouldClose(window)) {
         BeginFrame();
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-            break;
+            glfwSetWindowShouldClose(window, GL_TRUE);
         }
 
-        if (ImGui::Begin("Config")) {
-            ImGui::Checkbox("Interpolation - Polygon (Red)", &inter_poly.visible);
+        {
+            ImGui::Begin("Config");
+            ImGui::Checkbox("Interpolation - Polynomial (Red)", &inter_poly.visible);
             ImGui::Checkbox("Interpolation - Gauss (Green)", &inter_gauss.visible);
             ImGui::SameLine();
-            ImGui::PushItemWidth(500.0f);
+            ImGui::PushItemWidth(150.0f);
             ImGui::InputInt("m##1", &inter_gauss.m_temp);
             inter_gauss.m_temp = std::clamp(inter_gauss.m_temp, 0, std::max<int>(0, inter_gauss.pos.size() - 1));
             if (inter_gauss.m_temp != inter_gauss.m) {
@@ -154,7 +172,7 @@ int main() {
                 inter_gauss.update = true;
             }
             ImGui::SameLine();
-            ImGui::InputFloat2("sigma2", &inter_gauss.sigma2_temp);
+            ImGui::InputFloat("sigma2", &inter_gauss.sigma2_temp);
             inter_gauss.sigma2_temp = std::max(inter_gauss.sigma2_temp, 1.0f);
             if (inter_gauss.sigma2_temp != inter_gauss.sigma2) {
                 inter_gauss.sigma2 = inter_gauss.sigma2_temp;
@@ -190,7 +208,8 @@ int main() {
             ImGui::End();
         }
 
-        if (ImGui::Begin("Canvas")) {
+        {
+            ImGui::Begin("Canvas");
             canvas_pos_ul = ImGui::GetCursorScreenPos();
             ImVec2 canvas_size = ImGui::GetContentRegionAvail();
             if (canvas_size.x < 50.0f) {
@@ -207,7 +226,7 @@ int main() {
             draw_list->AddRect(canvas_pos_ul, canvas_pos_br, IM_COL32(255, 255, 255, 255));
 
             float step = 20.0f;
-            float lb = step;
+            float lb = step; // left boundary, right boundary
             float rb = canvas_pos_br.x - step - canvas_pos_ul.x;
             ImGui::InvisibleButton("canvas", canvas_size);
             const bool is_hovered = ImGui::IsItemHovered();
@@ -217,11 +236,12 @@ int main() {
                     return a.x() < b.x();
                 });
 
-                inter_poly.pos = zmath::InterpolationPolygon(in_pos, lb, rb, step);
+                inter_poly.pos = zmath::InterpolationPolynomial(in_pos, lb, rb, step);
                 inter_gauss.update = true;
                 approx_poly.update = true;
                 approx_norm.update = true;
             } else if (is_hovered && ImGui::IsMouseClicked(ImGuiMouseButton_Right)) {
+                // 右键删除鼠标足够近的一个点
                 Eigen::Vector2f pos(io.MousePos.x - canvas_pos_ul.x, canvas_pos_br.y - io.MousePos.y);
                 size_t index = 0;
                 float min_dist = std::numeric_limits<float>::max();
@@ -234,7 +254,7 @@ int main() {
                 }
                 if (min_dist <= 100.0f) {
                     in_pos.erase(in_pos.begin() + index);
-                    inter_poly.pos = zmath::InterpolationPolygon(in_pos, lb, rb, step);
+                    inter_poly.pos = zmath::InterpolationPolynomial(in_pos, lb, rb, step);
                     inter_gauss.update = true;
                     approx_poly.update = true;
                     approx_norm.update = true;

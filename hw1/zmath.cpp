@@ -8,10 +8,12 @@ constexpr float Sqr(float x) {
     return x * x;
 }
 
+// m 代表多项式最高次数, 返回值是计算完的系数
 MatrixXf LeastSquares(const vector<Vector2f> &in_pos, int m, float lambda = 0.0f) {
     const int n = in_pos.size();
     MatrixXf A(m + 1, m + 1);
     vector<float> pow_temp(n, 1.0f);
+    // 这段没读懂, 为什么是2 * m + 1
     for (int i = 0; i < 2 * m + 1; i++) {
         float sum = 0;
         for (int j = 0; j < n; j++) {
@@ -39,7 +41,7 @@ MatrixXf LeastSquares(const vector<Vector2f> &in_pos, int m, float lambda = 0.0f
     return B;
 }
 
-vector<Vector2f> zmath::InterpolationPolygon(const vector<Vector2f> &in_pos, float lb, float rb, float step) {
+vector<Vector2f> zmath::InterpolationPolynomial(const vector<Vector2f> &in_pos, float lb, float rb, float step) {
     vector<Vector2f> result;
     for (float x = lb; x <= rb; x += step) {
         float y = 0;
