@@ -60,7 +60,7 @@ bool Initialize() {
 
     glfwMakeContextCurrent(window);
     if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
-        std::cout << "Failed to load glad" << std::endl;
+        std::cerr << "Failed to load glad" << std::endl;
         glfwTerminate();
         return false;
     }
