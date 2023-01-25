@@ -33,17 +33,16 @@ void MainWindow::on_checkBox_stateChanged(int arg1)
     ui->hw1form->update();
 }
 
-
-void MainWindow::on_checkBox_2_stateChanged(int arg1)
+void MainWindow::on_checkBox_3_stateChanged(int arg1)
 {
-    ui->hw1form->draw_gauss = arg1;
+    ui->hw1form->draw_ols = arg1;
     ui->hw1form->update();
 }
 
 
-void MainWindow::on_checkBox_3_stateChanged(int arg1)
+void MainWindow::on_spinBox_valueChanged(int arg1)
 {
-    ui->hw1form->draw_ols = arg1;
+    ui->hw1form->times = arg1;
     ui->hw1form->update();
 }
 

@@ -22,6 +22,10 @@ private slots:
 
     void on_checkBox_stateChanged(int arg1);
 
+    void on_checkBox_3_stateChanged(int arg1);
+
+    void on_spinBox_valueChanged(int arg1);
+
 private:
     Ui::MainWindow *ui;
 };

@@ -30,18 +30,20 @@ private:
 
     QPolygonF points;
 
+    void transform_point(QPointF& p);
+
 public:
     // lagrange 插值点
     bool draw_lag = false;
     QPolygonF lag;
 
-    // gauss 插值点
-    bool draw_gauss = false;
-    QPolygonF gauss;
-
     // 最小二乘法逼近
     bool draw_ols = false;
     QPolygonF ols;
+    int times = 1;
+
+    void lagrange_interpolation();
+    void ordinary_least_square(); // 最小二乘法
 };
 
 #endif // FORM_H

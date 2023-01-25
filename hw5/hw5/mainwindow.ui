@@ -51,7 +51,7 @@
                 <string>作业1是用插值算法和逼近算法来拟合曲线. 左键添加一个点, 右键删除对应位置的点</string>
                </property>
               </widget>
-              <widget class="QWidget" name="">
+              <widget class="QWidget" name="layoutWidget">
                <layout class="QVBoxLayout" name="verticalLayout">
                 <item>
                  <widget class="QCheckBox" name="checkBox">
@@ -61,16 +61,26 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QCheckBox" name="checkBox_2">
+                 <widget class="QCheckBox" name="checkBox_3">
                   <property name="text">
-                   <string>Gauss 插值</string>
+                   <string>最小二乘法</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QCheckBox" name="checkBox_3">
+                 <widget class="QLabel" name="label">
                   <property name="text">
-                   <string>最小二乘法</string>
+                   <string>函数空间的基的个数</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="spinBox">
+                  <property name="minimum">
+                   <number>1</number>
+                  </property>
+                  <property name="maximum">
+                   <number>10</number>
                   </property>
                  </widget>
                 </item>
