@@ -18,7 +18,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -433,16 +433,85 @@
                </spacer>
               </item>
               <item>
-               <widget class="QCheckBox" name="checkBox_7">
+               <widget class="QRadioButton" name="chaikinRadio">
                 <property name="text">
-                 <string>均匀参数化</string>
+                 <string>Chaikin细分</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="checkBox_8">
+               <widget class="QRadioButton" name="BRadio">
                 <property name="text">
-                 <string>弦长参数化</string>
+                 <string>均匀三次B样条(还没实现)</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="interpoRadio">
+                <property name="text">
+                 <string>4点插值细分</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_11">
+                <item>
+                 <widget class="QLabel" name="label_3">
+                  <property name="text">
+                   <string>alpha</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QDoubleSpinBox" name="doubleSpinBox">
+                  <property name="decimals">
+                   <number>3</number>
+                  </property>
+                  <property name="minimum">
+                   <double>0.001000000000000</double>
+                  </property>
+                  <property name="maximum">
+                   <double>5.000000000000000</double>
+                  </property>
+                  <property name="singleStep">
+                   <double>0.010000000000000</double>
+                  </property>
+                  <property name="value">
+                   <double>0.040000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_10">
+                <item>
+                 <widget class="QLabel" name="label_2">
+                  <property name="text">
+                   <string>细分次数</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="spinBox_2">
+                  <property name="maximum">
+                   <number>10</number>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="checkBox_6">
+                <property name="text">
+                 <string>控制顶点</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton_2">
+                <property name="text">
+                 <string>清空画布</string>
                 </property>
                </widget>
               </item>
@@ -460,7 +529,7 @@
                </spacer>
               </item>
               <item>
-               <widget class="QPlainTextEdit" name="hw3log_3">
+               <widget class="QPlainTextEdit" name="hw5log">
                 <property name="plainText">
                  <string>输出日志: </string>
                 </property>
