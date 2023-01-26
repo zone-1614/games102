@@ -24,6 +24,8 @@ signals:
 protected:
     void paintEvent(QPaintEvent* e);
     void mousePressEvent(QMouseEvent* e);
+    void mouseMoveEvent(QMouseEvent* e);
+    void mouseReleaseEvent(QMouseEvent* e);
 
 private:
     Ui::Hw3Form *ui;
@@ -36,6 +38,8 @@ private:
     QPolygonF lagrange_interpolation(const QList<double> &x, const QList<double> &y, double l, double r, double step);
 
 public:
+    bool edit_curve = false;
+    QPointF* move_point;
     // 均匀参数化
     bool draw_uni = false;
     QList<double> uni_param;

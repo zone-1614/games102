@@ -18,6 +18,7 @@ public:
 private slots:
     void on_hw1_log(QString str);
     void on_hw3_log(QString str);
+    void on_hw4_log(QString str);
 
     void on_pushButton_clicked();
 
@@ -30,6 +31,14 @@ private slots:
     void on_checkBox_2_stateChanged(int arg1);
 
     void on_checkBox_4_stateChanged(int arg1);
+
+    void on_clearHw3Button_clicked();
+
+    void on_clearHw4Button_clicked();
+
+    void on_editCurveCheckBox_stateChanged(int arg1);
+
+    void on_checkBox_5_stateChanged(int arg1);
 
 private:
     Ui::MainWindow *ui;

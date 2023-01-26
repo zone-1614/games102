@@ -73,45 +73,93 @@ void Hw3Form::paintEvent(QPaintEvent *e)
 
 void Hw3Form::mousePressEvent(QMouseEvent *e)
 {
-    if (e->button() == Qt::LeftButton) {
-        // 点击左键, 添加一个点
-        QPointF p_ = e->position();
-        transform_point(p_);
-        qDebug() << "click position: " << p_.x() << ", " << p_.y();
-        points.append(p_);
-        update();
-        emit(log(QString("添加点(%1, %2)").arg(p_.x()).arg(p_.y())));
-    } else if (e->button() == Qt::RightButton) {
-        if (points.size() == 0)
-            return ;
+    if (edit_curve) {
+        // 左键拖动
+        if (e->buttons() & Qt::LeftButton) {
+            // 找最近的点及其下标
+            if (points.size() == 0)
+                return ;
+            // 把点击的位置的坐标转化
+            QPointF p_ = e->position();
+            transform_point(p_);
 
-        // 把点击的位置的坐标转化
-        QPointF p_ = e->position();
-        transform_point(p_);
+            // 找最近的点
+            qreal mdis = 10000000; // 最小的距离
+            int idx = -1; // 距离最小的点的下标
 
-        // 点击右键, 删除最近且距离小于30的点
-        // 找最近的点
-        qreal mdis = 10000000; // 最小的距离
-        int idx = 0; // 距离最小的点的下标
-
-        for (int i = 0; i < points.size(); i++) {
-            auto p = points[i];
-            qreal dis = distance(p_, p);
-            if (dis < mdis) {
-                mdis = dis;
-                idx = i;
+            for (int i = 0; i < points.size(); i++) {
+                auto p = points[i];
+                qreal dis = distance(p_, p);
+                if (dis < mdis) {
+                    mdis = dis;
+                    idx = i;
+                }
+            }
+            if (mdis < 30) {
+                move_point = &points[idx];
             }
         }
-
-        qDebug() << "最小的距离" << mdis;
-        // 如果距离小于 30, 就把这个点删除
-        if (mdis < 30) {
-            auto remove_point = points[idx];
-            emit(log(QString("删除点(%1, %2)").arg(remove_point.x()).arg(remove_point.y())));
-
-            points.removeAt(idx);
+    } else {
+        if (e->button() == Qt::LeftButton) {
+            // 点击左键, 添加一个点
+            QPointF p_ = e->position();
+            transform_point(p_);
+            qDebug() << "click position: " << p_.x() << ", " << p_.y();
+            points.append(p_);
             update();
+            emit(log(QString("添加点(%1, %2)").arg(p_.x()).arg(p_.y())));
+        } else if (e->button() == Qt::RightButton) {
+            if (points.size() == 0)
+                return ;
+
+            // 把点击的位置的坐标转化
+            QPointF p_ = e->position();
+            transform_point(p_);
+
+            // 点击右键, 删除最近且距离小于30的点
+            // 找最近的点
+            qreal mdis = 10000000; // 最小的距离
+            int idx = 0; // 距离最小的点的下标
+
+            for (int i = 0; i < points.size(); i++) {
+                auto p = points[i];
+                qreal dis = distance(p_, p);
+                if (dis < mdis) {
+                    mdis = dis;
+                    idx = i;
+                }
+            }
+
+            qDebug() << "最小的距离" << mdis;
+            // 如果距离小于 30, 就把这个点删除
+            if (mdis < 30) {
+                auto remove_point = points[idx];
+                emit(log(QString("删除点(%1, %2)").arg(remove_point.x()).arg(remove_point.y())));
+
+                points.removeAt(idx);
+                update();
+            }
         }
+    }
+}
+
+void Hw3Form::mouseMoveEvent(QMouseEvent *e)
+{
+    if (move_point != nullptr && edit_curve && e->buttons() & Qt::LeftButton) {
+        auto p = e->position();
+        transform_point(p);
+        move_point->setX(p.x());
+        move_point->setY(p.y());
+        update();
+    }
+}
+
+void Hw3Form::mouseReleaseEvent(QMouseEvent *e)
+{
+    if (move_point != nullptr && edit_curve && e->buttons() & Qt::LeftButton) {
+        qDebug() << "释放拖动的点";
+        move_point = nullptr;
+        update();
     }
 }
 

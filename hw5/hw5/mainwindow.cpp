@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->hw1form, SIGNAL(log(QString)), this, SLOT(on_hw1_log(QString)));
     connect(ui->hw3form, SIGNAL(log(QString)), this, SLOT(on_hw3_log(QString)));
+    connect(ui->hw4form, SIGNAL(log(QString)), this, SLOT(on_hw4_log(QString)));
 }
 
 MainWindow::~MainWindow()
@@ -24,6 +25,11 @@ void MainWindow::on_hw1_log(QString str)
 void MainWindow::on_hw3_log(QString str)
 {
     ui->hw3log->appendPlainText(str);
+}
+
+void MainWindow::on_hw4_log(QString str)
+{
+    ui->hw4log->appendPlainText(str);
 }
 
 
@@ -64,5 +70,29 @@ void MainWindow::on_checkBox_4_stateChanged(int arg1)
 {
     ui->hw3form->draw_chord = arg1;
     ui->hw3form->update();
+}
+
+
+void MainWindow::on_clearHw3Button_clicked()
+{
+    ui->hw3log->clear();
+}
+
+
+void MainWindow::on_clearHw4Button_clicked()
+{
+    ui->hw4log->clear();
+}
+
+
+void MainWindow::on_editCurveCheckBox_stateChanged(int arg1)
+{
+    ui->hw4form->edit_curve = arg1;
+}
+
+
+void MainWindow::on_checkBox_5_stateChanged(int arg1)
+{
+    ui->hw3form->edit_curve = arg1;
 }
 
