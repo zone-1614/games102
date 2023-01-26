@@ -1,5 +1,5 @@
 #include "form.h"
-#include "./ui_form.h"
+#include "ui_form.h"
 #include <QPainter>
 #include <QDebug>
 #include <Eigen/Core>

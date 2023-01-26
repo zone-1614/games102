@@ -24,6 +24,7 @@ set(PROJECT_SOURCES
         mainwindow.h
         mainwindow.ui
         form.h form.cpp form.ui
+        hw3form.h hw3form.cpp hw3form.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

@@ -16,7 +16,8 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_log(QString str);
+    void on_hw1_log(QString str);
+    void on_hw3_log(QString str);
 
     void on_pushButton_clicked();
 
@@ -25,6 +26,10 @@ private slots:
     void on_checkBox_3_stateChanged(int arg1);
 
     void on_spinBox_valueChanged(int arg1);
+
+    void on_checkBox_2_stateChanged(int arg1);
+
+    void on_checkBox_4_stateChanged(int arg1);
 
 private:
     Ui::MainWindow *ui;
