@@ -26,15 +26,20 @@ void Hw5Form::paintEvent(QPaintEvent *e)
     painter.drawPoints(points);
 
 
-    painter.setPen(QPen(Qt::blue, 3, Qt::SolidLine, Qt::RoundCap));
     if (radio == 1 && points.size() >= 3) { // chaikin细分
+        painter.setPen(QPen(Qt::blue, 3, Qt::SolidLine, Qt::RoundCap));
         chaikin_subdivision();
         painter.drawPolygon(chaikin_points);
+        painter.setPen(QPen(Qt::yellow, 5, Qt::SolidLine, Qt::RoundCap));
+        painter.drawPoints(chaikin_points);
     } else if (radio == 2) { // 三次B样条细分
 
     } else if (radio == 3 && points.size() >= 4) { // 四点插值细分
+        painter.setPen(QPen(Qt::blue, 3, Qt::SolidLine, Qt::RoundCap));
         four_subdivision();
         painter.drawPolygon(four_points);
+        painter.setPen(QPen(Qt::yellow, 5, Qt::SolidLine, Qt::RoundCap));
+        painter.drawPoints(four_points);
     }
 
 }
