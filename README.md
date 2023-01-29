@@ -7,8 +7,12 @@
 
 ## 作业1截图
 ![](https://raw.githubusercontent.com/zone-1614/pic/main/img/Snipaste_2023-01-26_10-58-38.png)
+
 ## 作业3截图
 ![](https://raw.githubusercontent.com/zone-1614/pic/main/img/Snipaste_2023-01-26_10-58-11.png)
+
+## 作业4截图
+![](https://raw.githubusercontent.com/zone-1614/pic/main/img/cubic_spline.png)
 
 ## 作业5截图
 chaikin细分, 迭代3次
