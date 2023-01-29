@@ -41,4 +41,4 @@ chaikin细分, 迭代3次
 ![](https://raw.githubusercontent.com/zone-1614/pic/main/img/lsmesh1.png)
 
 ![](https://raw.githubusercontent.com/zone-1614/pic/main/img/lsmesh2.png)
-> 这么以看, 薯片似乎就是极小曲面??
+> 这么一看, 薯片似乎就是极小曲面??
