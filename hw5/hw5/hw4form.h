@@ -37,6 +37,15 @@ private:
 public:
     bool edit_curve = false;
     QPointF* move_point;
+
+    // 均匀参数化
+    bool draw_uni = false;
+    QList<double> uni_param;
+    QPolygonF uni;
+    void uniform_parameterization();
+
+    // 三次样条插值
+    QPolygonF cubic_spline_interpolation(const QList<double> &x, const QList<double> &y, double l, double r, double step);
 };
 
 #endif // HW4FORM_H

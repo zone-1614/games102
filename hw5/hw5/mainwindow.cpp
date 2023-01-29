@@ -157,3 +157,10 @@ void MainWindow::on_doubleSpinBox_valueChanged(double arg1)
     ui->hw5form->update();
 }
 
+
+void MainWindow::on_checkBox_7_stateChanged(int arg1)
+{
+    ui->hw4form->draw_uni = arg1;
+    ui->hw4form->update();
+}
+
