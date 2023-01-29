@@ -27,3 +27,18 @@ chaikin细分, 迭代3次
 
 
 ![](https://raw.githubusercontent.com/zone-1614/pic/main/img/%E5%9B%9B%E7%82%B9%E6%8F%92%E5%80%BC%E7%BB%86%E5%88%86_%E7%97%85%E6%80%81%E6%83%85%E5%86%B5.png)
+
+
+## 作业6截图
+![](https://raw.githubusercontent.com/zone-1614/pic/main/img/face1.png)
+
+![](https://raw.githubusercontent.com/zone-1614/pic/main/img/face2.png)
+
+![](https://raw.githubusercontent.com/zone-1614/pic/main/img/ball1.png)
+
+![](https://raw.githubusercontent.com/zone-1614/pic/main/img/ball2.png)
+
+![](https://raw.githubusercontent.com/zone-1614/pic/main/img/lsmesh1.png)
+
+![](https://raw.githubusercontent.com/zone-1614/pic/main/img/lsmesh2.png)
+> 这么以看, 薯片似乎就是极小曲面??
