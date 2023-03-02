@@ -2,7 +2,19 @@
 这个仓库放的是学GAMES102时的作业和一些笔记
 
 ## 作业1截图
+
+
 ![](https://raw.githubusercontent.com/zone-1614/pic/main/img/Snipaste_2023-01-26_10-58-38.png)
+
+## 作业2截图
+
+
+![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw2_rbf.png)
+
+![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw2_rbf2.png)
+
+![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw2_rbf3.png)
+
 
 ## 作业3截图
 ![](https://raw.githubusercontent.com/zone-1614/pic/main/img/Snipaste_2023-01-26_10-58-11.png)
@@ -56,31 +68,49 @@ chaikin细分, 迭代3次
 
 极小曲面全局法, cot权
 
+
 ![极小曲面全局法, cot权](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw7_%E5%85%A8%E5%B1%80%E6%B3%95_cot%E6%9D%83_face.png)
 
 ![极小曲面全局法, cot权](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw7_%E5%85%A8%E5%B1%80%E6%B3%95_cot%E6%9D%83_cathead.png)
 
+
+
 > 参数化的cot权似乎出了点问题, 效果不太好
 
 
+
+
 face的参数化(均采用平均权)
+
+
+
 ![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw7_%E5%8F%82%E6%95%B0%E5%8C%96_%E5%B9%B3%E5%9D%87%E6%9D%83_face.png)
 
 ![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw7_%E5%8F%82%E6%95%B0%E5%8C%96_%E5%B9%B3%E5%9D%87%E6%9D%83_face2.png)
 
 
 cat head的参数化
+
+
+
 ![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw7_%E5%8F%82%E6%95%B0%E5%8C%96_%E5%B9%B3%E5%9D%87%E6%9D%83_cathead.png)
 
 ![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw7_%E5%8F%82%E6%95%B0%E5%8C%96_%E5%B9%B3%E5%9D%87%E6%9D%83_cathead2.png)
 
 
 ball 的参数化
+
+
+
 ![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw7_%E5%8F%82%E6%95%B0%E5%8C%96_%E5%B9%B3%E5%9D%87%E6%9D%83_ball.png)
 
 ![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw7_%E5%8F%82%E6%95%B0%E5%8C%96_%E5%B9%B3%E5%9D%87%E6%9D%83_ball2.png)
 
+
 补上cot权的参数化
+
+
+
 ![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw7_%E5%8F%82%E6%95%B0%E5%8C%96_cot%E6%9D%83_face.png)
 
 ![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw7_%E5%8F%82%E6%95%B0%E5%8C%96_cot%E6%9D%83_face2.png)
