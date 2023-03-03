@@ -1,11 +1,12 @@
 #include "App.h"
+#include "config.h"
 
 #include <spdlog/spdlog.h>
 
 namespace zone {
 
 App::App(std::string i_filename, std::string o_filename)
-    : input_filename(i_filename), output_filename(o_filename) 
+    : input_filename(model_path + i_filename), output_filename(model_path + o_filename) 
 {
     spdlog::info("Input filename: {}", input_filename);
     spdlog::info("Output filename: {}", output_filename);

@@ -5,6 +5,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(hw7 LANGUAGES CXX)
 
+set(model_path "${PROJECT_SOURCE_DIR}/model/")
+configure_file("${PROJECT_SOURCE_DIR}/config/config.h.in" "${PROJECT_SOURCE_DIR}/config.h")
+
 add_definitions(-D_USE_MATH_DEFINES)
 
 find_package(libigl CONFIG REQUIRED)
