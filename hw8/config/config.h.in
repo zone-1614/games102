@@ -1,0 +1,2 @@
+#pragma once
+#define project_path "@project_path@"

@@ -129,3 +129,12 @@ ball 的参数化
 ![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw7_%E7%BA%B9%E7%90%86%E6%98%A0%E5%B0%845.png)
 
 
+## 作业8截图
+
+优化前
+
+![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw8_voronoi.png)
+
+优化后
+
+![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw8_voronoi2.png)
