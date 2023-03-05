@@ -1,13 +1,24 @@
 #include "App.h"
 #include "config.h"
 
+#define STB_IMAGE_IMPLEMENTATION
+
 #include <spdlog/spdlog.h>
+#include <igl/png/readPNG.h>
 
 namespace zone {
 
-App::App(std::string i_filename, std::string o_filename)
+App::App(std::string i_filename, std::string o_filename, std::string t_filename)
     : input_filename(model_path + i_filename), output_filename(model_path + o_filename) 
 {
+    if (!t_filename.empty()) {
+        texture_filename = t_filename;
+        have_texture = true;
+        igl::png::readPNG(texture_path + texture_filename, R, G, B, A);
+    }
+    mesh.request_vertex_texcoords2D();
+    mesh.request_face_normals();
+
     spdlog::info("Input filename: {}", input_filename);
     spdlog::info("Output filename: {}", output_filename);
 
@@ -25,47 +36,103 @@ App::App(std::string i_filename, std::string o_filename)
     spdlog::info("5: parameterazation to a circle with cot weight");
     spdlog::info("6: parameterazation to a square with avg weight");
     spdlog::info("7: parameterazation to a square with cot weight");
+    spdlog::info("8: show texture");
     viewer.callback_key_down = [&](igl::opengl::glfw::Viewer& viewer, unsigned char key, int modifier) -> bool {
         if (key == '1') { // reload the origin model
             spdlog::info("reload the origin model");
             igl::read_triangle_mesh(input_filename, V, F);
+            viewer.data().clear();
+            viewer.data().set_mesh(V, F);
+            viewer.data().show_lines = true;
+            viewer.data().show_texture = false;
+            viewer.core().align_camera_center(V, F);
+            return true;
         } else if (key == '2') { 
             spdlog::info("global minimal surface algorithm with avg weight");
             minimal_surface(Weight::AVERAGE);
             OpenMesh::IO::write_mesh(mesh, output_filename);
             igl::read_triangle_mesh(output_filename, V, F);
+            viewer.data().clear();
+            viewer.data().set_mesh(V, F);
+            viewer.data().show_lines = true;
+            viewer.data().show_texture = false;
+            viewer.core().align_camera_center(V, F);
+            return true;
         } else if (key == '3') { 
             spdlog::info("global minimal surface algorithm with cot weight");
             minimal_surface(Weight::COTANGENT);
             OpenMesh::IO::write_mesh(mesh, output_filename);
             igl::read_triangle_mesh(output_filename, V, F);
+            viewer.data().clear();
+            viewer.data().set_mesh(V, F);
+            viewer.data().show_lines = true;
+            viewer.data().show_texture = false;
+            viewer.core().align_camera_center(V, F);
+            return true;
         } else if (key == '4') { 
             spdlog::info("parameterazation to a circle with avg weight");
             parameterazation(Boundary::CIRCLE ,Weight::AVERAGE);
             OpenMesh::IO::write_mesh(mesh, output_filename);
-            igl::read_triangle_mesh(output_filename, V, F);
+            igl::read_triangle_mesh(output_filename, V_uv, F_uv);
+            viewer.data().clear();
+            viewer.data().set_mesh(V_uv, F_uv);
+            viewer.data().show_lines = true;
+            viewer.data().show_texture = false;
+            viewer.data().double_sided = true;
+            viewer.core().align_camera_center(V_uv, F_uv);
+            return true;
         } else if (key == '5') { 
             spdlog::info("parameterazation to a circle with cot weight");
             parameterazation(Boundary::CIRCLE ,Weight::COTANGENT);
             OpenMesh::IO::write_mesh(mesh, output_filename);
-            igl::read_triangle_mesh(output_filename, V, F);
+            igl::read_triangle_mesh(output_filename, V_uv, F_uv);
+            viewer.data().clear();
+            viewer.data().set_mesh(V_uv, F_uv);
+            viewer.data().show_lines = true;
+            viewer.data().show_texture = false;
+            viewer.data().double_sided = true;
+            viewer.core().align_camera_center(V_uv, F_uv);
+            return true;
         } else if (key == '6') {
             spdlog::info("parameterazation to a square with avg weight");
             parameterazation(Boundary::SQUARE ,Weight::AVERAGE);
             OpenMesh::IO::write_mesh(mesh, output_filename);
-            igl::read_triangle_mesh(output_filename, V, F);
+            igl::read_triangle_mesh(output_filename, V_uv, F_uv);
+            viewer.data().clear();
+            viewer.data().set_mesh(V_uv, F_uv);
+            viewer.data().show_lines = true;
+            viewer.data().show_texture = false;
+            viewer.data().double_sided = true;
+            viewer.core().align_camera_center(V_uv, F_uv);
+            return true;
         } else if (key == '7') {
             spdlog::info("parameterazation to a square with cot weight");
             parameterazation(Boundary::SQUARE ,Weight::COTANGENT);
             OpenMesh::IO::write_mesh(mesh, output_filename);
-            igl::read_triangle_mesh(output_filename, V, F);
-        } else {
-            spdlog::info("Unexpected key");
-            return false;
+            igl::read_triangle_mesh(output_filename, V_uv, F_uv);
+            viewer.data().clear();
+            viewer.data().set_mesh(V_uv, F_uv);
+            viewer.data().show_lines = true;
+            viewer.data().show_texture = false;
+            viewer.data().double_sided = true;
+            viewer.core().align_camera_center(V_uv, F_uv);
+            return true;
+        } else if (key == '8') {
+            spdlog::info("show texture");
+            igl::read_triangle_mesh(input_filename, V, F);
+            V_uv *= 5.0;
+            viewer.data().clear();
+            viewer.data().set_mesh(V, F);
+            viewer.data().set_uv(V_uv);
+            viewer.data().show_lines = false;
+            viewer.data().show_texture = true;
+            if (have_texture) {
+                viewer.data().set_texture(R, G, B, A);
+                viewer.data().use_matcap = true;
+            }
+            viewer.core().align_camera_center(V, F);
+            return true;
         }
-        viewer.data().clear();
-        viewer.data().set_mesh(V, F);
-        viewer.core().align_camera_center(V, F);
         return false;
     };
 

@@ -1,1 +1,2 @@
 #define model_path "@model_path@"
+#define texture_path "@texture_path@"

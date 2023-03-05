@@ -117,3 +117,15 @@ ball 的参数化
 
 > 可以看出来cot权效果还是很不错的, 可以大概看出原来是个什么东西. 之前的cot权长得很奇怪是因为没有clamp, 导致出现了太大/太小/负数的权重.
 
+纹理映射
+
+
+![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw7_%E7%BA%B9%E7%90%86%E6%98%A0%E5%B0%843.png)
+
+![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw7_%E7%BA%B9%E7%90%86%E6%98%A0%E5%B0%84.png)
+
+![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw7_%E7%BA%B9%E7%90%86%E6%98%A0%E5%B0%844.png)
+
+![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw7_%E7%BA%B9%E7%90%86%E6%98%A0%E5%B0%845.png)
+
+

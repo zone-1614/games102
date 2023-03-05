@@ -19,7 +19,7 @@ using Mesh = OpenMesh::TriMesh_ArrayKernelT<>;
 class App {
 public:
 
-    App(std::string i_filename, std::string o_filename);
+    App(std::string i_filename, std::string o_filename, std::string t_filename = "");
 
     void launch();
 
@@ -38,9 +38,12 @@ private:
 private:
     std::string input_filename;
     std::string output_filename;
+    std::string texture_filename;
+    bool have_texture = false;
+    Eigen::Matrix<unsigned char,Eigen::Dynamic,Eigen::Dynamic> R,G,B,A;
 
-    Eigen::MatrixXd V;
-    Eigen::MatrixXi F;
+    Eigen::MatrixXd V, V_uv;
+    Eigen::MatrixXi F, F_uv;
     
     Mesh mesh;
 
