@@ -23,8 +23,6 @@ private:
     void lloyd();
     jcv_point centroid(jcv_graphedge* ge);
     void jcv_diagram_to_png(std::string png_name);
-    void jcv_diagram_to_obj();
-    
 
     jcv_point remap(const jcv_point& p);
     void draw_point(int x, int y);

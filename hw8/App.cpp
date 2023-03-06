@@ -89,49 +89,6 @@ void App::jcv_diagram_to_png(std::string png_name) {
     stbi_write_png(png.c_str(), width, height, 3, image, 0);
 }
 
-void App::jcv_diagram_to_obj() {
-    std::stringstream obj_ss;
-    auto sites = jcv_diagram_get_sites(&diagram);
-    std::vector<jcv_point> ps;
-    // vertices
-    obj_ss << "# vertices\n";
-    for (int i = 0; i < diagram.numsites; i++) {
-        auto s = &sites[i];
-        obj_ss << "v " << s->p.x << " " << s->p.y << " 0.0\n";
-        ps.push_back(s->p);
-        auto e = s->edges;
-        while (e) {
-            auto p0 = e->pos[0], p1 = e->pos[1];
-            ps.push_back(p0);
-            ps.push_back(p1);
-            obj_ss << "v " << p0.x << " " << p0.y << " 0.0\n";
-            obj_ss << "v " << p1.x << " " << p1.y << " 0.0\n";
-            e = e->next;
-        }
-    }
-    // faces
-    obj_ss << "# faces\n";
-    for (int i = 0; i < diagram.numsites; i++) {
-        obj_ss << "# face " << i+1 << " \n";
-        auto s = &sites[i];
-        auto e = s->edges;
-        while (e) {
-            auto p0 = e->pos[0], p1 = e->pos[1];
-            auto idx = [&](const jcv_point& p) {
-                return std::find(ps.begin(), ps.end(), p) - ps.begin() + 1;
-            };
-            int idx_s = idx(s->p), idx_0 = idx(p0), idx_1 = idx(p1);
-            obj_ss << "f " << idx_s << " " << idx_0 << " " << idx_1 << "\n";
-            e = e->next;
-        }
-    }
-    
-    std::ofstream ofs;
-    ofs.open(output);
-    ofs << obj_ss.str();
-    ofs.close();
-}
-
 jcv_point App::remap(const jcv_point& p) {
     jcv_point pp;
     pp.x = p.x * width;
