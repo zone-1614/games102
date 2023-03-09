@@ -142,8 +142,26 @@ ball 的参数化
 
 ## 作业9截图
 
+一开始大概是7k-10k个网格
 ![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw9_qem_1.png)
+
+去掉wireframe如下
+
+
+![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw9_qem_11.png)
+
+
+简化到2k网格
 
 ![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw9_qem_2.png)
 
+去掉wireframe如下
+
+
+![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw9_qem_22.png)
+
+
+简化到几百个网格
 ![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw9_qem_3.png)
+
+![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw9_qem_33.png)
