@@ -138,3 +138,12 @@ ball 的参数化
 优化后
 
 ![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw8_voronoi2.png)
+
+
+## 作业9截图
+
+![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw9_qem_1.png)
+
+![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw9_qem_2.png)
+
+![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw9_qem_3.png)
