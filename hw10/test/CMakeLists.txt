@@ -1,0 +1,12 @@
+macro(ztest ztarget)
+    add_executable(${ztarget} ${ztarget}.cpp ../src/kdtree.cpp)
+    target_include_directories(${ztarget} PUBLIC "${PROJECT_SOURCE_DIR}/include")
+    target_include_directories(${ztarget} PUBLIC include)
+    target_include_directories(${ztarget} PRIVATE ${OPENMESH_INCLUDE_DIRS})
+    target_link_libraries(${ztarget} PRIVATE ${OPENMESH_LIBRARIES})
+    target_link_libraries(${ztarget} PRIVATE spdlog::spdlog spdlog::spdlog_header_only)
+    add_test(${ztarget} "${ztarget}")
+endmacro()
+
+ztest(test_build_kdtree)
+ztest(test_knn)
