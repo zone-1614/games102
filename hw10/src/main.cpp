@@ -5,5 +5,6 @@
 using namespace zone;
 
 int main() {
-    
+    RBF rbf("Arma_04.obj", "output.obj");
+    func f = rbf.fit();
 }

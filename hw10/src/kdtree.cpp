@@ -108,7 +108,6 @@ std::vector<kdnode_ptr> kdtree::k_nearest(size_t k, const vh& v) {
     std::vector<kdnode_ptr> result;
     while (!q.empty()) {
         auto [p, d] = q.top();
-        spdlog::info("distance {}", d);
         result.push_back(p);
         q.pop();
     }

@@ -32,6 +32,7 @@ struct kdnode_comparer {
 
 class kdtree {
 public:
+    kdtree() {}
     kdtree(Mesh& mesh);
     std::vector<kdnode_ptr> k_nearest(size_t k, const vh& v);
 private:
