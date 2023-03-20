@@ -9,46 +9,51 @@
 namespace zone {
 
 struct func {
-    std::vector<float> coefs;
-    std::array<float, 4> arr;
+    std::vector<double> coefs;
     std::vector<Point> ps;
-    float c;
-    float kernel(float x) {
-        return std::expf(-c * x * x);
+    std::function<double(double)> kernel = zone::kernel1;
+    int k = 1;
+    void set_kernel(int k_) {
+        k = k_;
+        if (k == 1) {
+            kernel = zone::kernel1;
+        } else if (k == 2) {
+            kernel = zone::kernel2;
+        }
     }
-    float operator()(const Point& p) {
-        float monomial = arr[0] * p[0] + arr[1] * p[1] + arr[2] * p[2] + arr[3];
-        float rbf = 0.0f;
+    double operator()(const Point& p) const {
+        double rbf = 0.0;
         for (int i = 0; i < ps.size(); i++) {
             rbf += kernel((p - ps[i]).norm()) * coefs[i];
         }
-        return rbf + monomial;
+        return rbf;
     }
 };
 
 class RBF {
 public:
-    RBF(std::string input_filename, std::string output_filename);
+    RBF(std::string small_mesh_, std::string big_mesh_, std::string output_mesh_);
     func fit();
-    
+    func fit_sparse();
+    std::pair<Point, Point> RBF::get_boundingbox() const;
+    std::string big_mesh_filename() const;
+
 private:
     void compute_all_normal();
-    Normal compute_normal(std::vector<kdnode_ptr>& knn, vh& v);
+    Normal compute_normal(std::vector<kdnode_ptr>& knn);
     void normal_orientation();
-    std::vector<std::pair<Point, float>> gen_signed_field();
-    float rbf_kernel(float x); // gaussian
-private:
-    std::string i_filename, o_filename;
-
-    Mesh mesh;
-    Mesh s_mesh; // mesh used for signed field
-    kdtree kdt;
-    size_t k = 4;
-    float epsilon = 0.02f;
-    std::vector<std::pair<zone::Point, float>> sf; // signed field
-
-    float c = 0.0f; // for gaussian
+    std::vector<std::pair<Point, double>> gen_signed_field();
     
+private:
+    std::string big_mesh_filename_;
+    std::function<double(double)> kernel;
+
+    Mesh small_mesh, big_mesh, output_mesh;
+    kdtree small_kdt, big_kdt;
+    size_t k = 8;
+    double epsilon = 1.0;
+    std::vector<std::pair<zone::Point, double>> sf; // signed field
+
 };
 
 }

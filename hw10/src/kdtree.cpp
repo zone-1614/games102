@@ -41,18 +41,15 @@ kdnode_ptr kdtree::make_tree(iter begin, iter end, size_t index) {
     return std::make_shared<kdnode>(nodes[m]);
 }
 
-bool operator<(std::pair<kdnode_ptr, float> p1, std::pair<kdnode_ptr, float> p2) {
+bool operator<(std::pair<kdnode_ptr, double> p1, std::pair<kdnode_ptr, double> p2) {
     return p1.second > p2.second;
 }
 
-std::vector<kdnode_ptr> kdtree::k_nearest(size_t k, const vh& v) {
+std::vector<kdnode_ptr> kdtree::k_nearest(size_t k, const Point& p) const {
     if (root == nullptr) 
         return {};
 
-    auto node = *std::find_if(nodes.begin(), nodes.end(), [&](const kdnode& k) {
-        return k.v == v;
-    });
-    std::priority_queue<std::pair<kdnode_ptr, float>> q;
+    std::priority_queue<std::pair<kdnode_ptr, double>> q;
 
     // 1. search path
     kdnode_ptr curr = root;
@@ -61,7 +58,7 @@ std::vector<kdnode_ptr> kdtree::k_nearest(size_t k, const vh& v) {
     auto add_path = [&](kdnode_ptr ptr) {
         while (ptr != nullptr) {
             stk.push(ptr);
-            if (node.p[ptr->index] < ptr->p[ptr->index]) {
+            if (p[ptr->index] < ptr->p[ptr->index]) {
                 ptr = ptr->left;
             } else {
                 ptr = ptr->right;
@@ -75,8 +72,8 @@ std::vector<kdnode_ptr> kdtree::k_nearest(size_t k, const vh& v) {
         curr = stk.top();
         stk.pop();
 
-        float dist = node.distance(*curr);
-        if (curr->v == v) continue;
+        double dist = (p - curr->p).norm();
+        if (curr->p == p) continue;
         // try to push curr
         if (q.size() < k) {
             q.push({ curr, dist });
@@ -90,11 +87,11 @@ std::vector<kdnode_ptr> kdtree::k_nearest(size_t k, const vh& v) {
         
         // have children
         if (!curr->isLeaf()) {
-            float dx = std::abs(curr->p[curr->index] - node.p[curr->index]);
+            double dx = std::abs(curr->p[curr->index] - p[curr->index]);
             if (q.size() < k || dx < q.top().second) {
                 kdnode_ptr child_ptr;
                 // deep into another child
-                if (node.p[curr->index] < curr->p[curr->index]) {
+                if (p[curr->index] < curr->p[curr->index]) {
                     child_ptr = curr->right;
                 } else {
                     child_ptr = curr->left;
@@ -107,11 +104,54 @@ std::vector<kdnode_ptr> kdtree::k_nearest(size_t k, const vh& v) {
     // 3. construct the result
     std::vector<kdnode_ptr> result;
     while (!q.empty()) {
-        auto [p, d] = q.top();
-        result.push_back(p);
+        auto [nn, d] = q.top();
+        result.push_back(nn);
         q.pop();
     }
     return result;
+}
+
+double kdtree::nearest_distance(const Point& p) const {
+    double min_dis = DBL_MAX;
+    kdnode_ptr curr = root;
+    kdnode_ptr nearest = root;
+    std::stack<kdnode_ptr> stk;
+    auto add_path = [&](kdnode_ptr ptr) {
+        while (ptr != nullptr) {
+            stk.push(ptr);
+            if (p[ptr->index] < ptr->p[ptr->index]) {
+                ptr = ptr->left;
+            } else {
+                ptr = ptr->right;
+            }
+        }
+    };
+    add_path(curr);
+
+    while (!stk.empty()) {
+        curr = stk.top();
+        stk.pop();
+
+        double dis = (curr->p - p).norm();
+        if (dis < min_dis) {
+            min_dis = dis;
+            nearest = curr;
+        }
+        if (!curr->isLeaf()) {
+            double dx = std::abs(curr->p[curr->index] - p[curr->index]);
+            if (dx < min_dis) {
+                kdnode_ptr child_ptr;
+                // deep into another child
+                if (p[curr->index] < curr->p[curr->index]) {
+                    child_ptr = curr->right;
+                } else {
+                    child_ptr = curr->left;
+                }
+                add_path(child_ptr);
+            }
+        }
+    }
+    return min_dis;
 }
 
 }

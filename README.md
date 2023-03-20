@@ -165,3 +165,14 @@ ball 的参数化
 ![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw9_qem_3.png)
 
 ![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw9_qem_33.png)
+
+
+
+# hw10 截图
+
+RBF曲面重建, 效果很差, 应该是自己写的 点云法向有问题, 以后用PCL重写一份
+
+![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw10.png)
+
+
+![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw10_2.png)

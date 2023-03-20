@@ -1,3 +1,4 @@
 #pragma once
 
 #define model_path "@model_path@"
+#define log_path "@log_path@"

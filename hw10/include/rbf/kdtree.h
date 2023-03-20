@@ -17,9 +17,8 @@ struct kdnode {
     kdnode_ptr left;
     kdnode_ptr right;
     size_t index;
-    float distance(const kdnode& n) const {
-        auto pp = p - n.p;
-        return std::sqrtf(pp[0] * pp[0] + pp[1] * pp[1] + pp[2] * pp[2]);
+    double distance(const kdnode& n) const {
+        return (p - n.p).norm();
     }
     bool isLeaf() const { return left == nullptr && right == nullptr; }
 };
@@ -34,7 +33,9 @@ class kdtree {
 public:
     kdtree() {}
     kdtree(Mesh& mesh);
-    std::vector<kdnode_ptr> k_nearest(size_t k, const vh& v);
+    std::vector<kdnode_ptr> k_nearest(size_t k, const Point& p) const;
+    double nearest_distance(const Point& p) const;
+    
 private:
     void mesh_to_nodes();
     kdnode make_kdnode(const vh& v);
