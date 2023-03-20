@@ -13,7 +13,7 @@ std::tuple<func, Point, Point, std::string> read_json(const std::string& json_fi
 int main(int argc, char** argv) {
     std::string mc_filename;
     if (argc == 1) {
-        mc_filename = "mc_Arma.obj";
+        mc_filename = "mc_Kitten.obj";
     } else {
         mc_filename = std::string(argv[1]);
     }

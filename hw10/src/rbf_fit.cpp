@@ -38,7 +38,7 @@ void save_func_and_boudingbox(const func& f, const RBF& rbf) {
     j["rbd"] = rbd;
     j["big_mesh_filename"] = rbf.big_mesh_filename();
 
-    std::ofstream ofs(std::string(log_path) + "func.json");
+    std::ofstream ofs(std::string(log_path) + "func_ldlt.json");
     ofs << std::setw(4) << j << std::endl;
     spdlog::info("save the interpolant as json");
 }

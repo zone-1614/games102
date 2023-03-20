@@ -170,9 +170,19 @@ ball 的参数化
 
 # hw10 截图
 
-RBF曲面重建, 效果很差, 应该是自己写的 点云法向有问题, 以后用PCL重写一份
+RBF曲面重建, 效果很差, 应该是自己写的点云法向有问题?
+
 
 ![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw10.png)
 
 
 ![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw10_2.png)
+
+
+PCL 实现的Poisson重建(感觉效果也不是很好?)
+
+
+![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw10_pcl_poisson_armadillo.png)
+
+
+![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw10_pcl_poisson_dragon.png)

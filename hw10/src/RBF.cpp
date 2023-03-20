@@ -15,7 +15,7 @@ RBF::RBF(std::string small_mesh_, std::string big_mesh_, std::string output_mesh
     //OpenMesh::IO::read_mesh(output_mesh, std::string(model_path) + output_mesh_);
     spdlog::info("OpenMesh read mesh success");
 
-    kernel = zone::kernel1;
+    set_kernel(5);
 
     small_kdt = kdtree(small_mesh);
     big_kdt = kdtree(big_mesh);
@@ -29,6 +29,17 @@ RBF::RBF(std::string small_mesh_, std::string big_mesh_, std::string output_mesh
     spdlog::info("generate signed field success");
 
     OpenMesh::IO::write_mesh(output_mesh, std::string(model_path) + output_mesh_);
+}
+
+void RBF::set_kernel(int k_) {
+    ker = k_;
+    if (ker == 1) {
+        kernel = zone::kernel1;
+    } else if (ker == 2) {
+        kernel = zone::kernel2;
+    } else if (ker == 5) {
+        kernel = zone::kernel5;
+    }
 }
 
 void RBF::compute_all_normal() {
@@ -157,6 +168,8 @@ std::vector<std::pair<Point, double>> RBF::gen_signed_field() {
 
 // fitting function for dense matrix
 func RBF::fit() {
+    auto [bb1, bb2] = get_boundingbox();
+    double rad = (bb1 - bb2).norm() * 0.2;
     const size_t N = sf.size();
     Eigen::VectorXd b(N);
     Eigen::MatrixXd A(N, N);
@@ -165,18 +178,19 @@ func RBF::fit() {
         auto pi = sf[i].first;
         for (int j = 0; j < N; j++) {
             auto pj = sf[j].first;
-            A(i, j) = kernel((pi - pj).norm());
+            A(i, j) = kernel((pi - pj).norm() / rad);
         }
         b(i) = sf[i].second;
     }
 
     spdlog::info("solving the matrix. wait about three minutes");
     // solve
-    Eigen::VectorXd x = A.householderQr().solve(b);
+    Eigen::VectorXd x = A.ldlt().solve(b);
+    //Eigen::VectorXd x = A.householderQr().solve(b);
     spdlog::info("solve the matrix success");
 
     func f;
-    f.set_kernel(1);
+    f.set_kernel(ker);
     for (int i = 0; i < N; i++) {
         f.coefs.push_back(x(i));
     }
@@ -189,7 +203,8 @@ func RBF::fit() {
 
 // fitting function for sparse matrix
 func RBF::fit_sparse() {
-    kernel = zone::kernel3;
+    auto [bb1, bb2] = get_boundingbox();
+    double rad = (bb1 - bb2).norm() * 0.2;
     const size_t N = sf.size();
     Eigen::VectorXd b(N);
     std::vector<Eigen::Triplet<double>> tri;
@@ -199,8 +214,9 @@ func RBF::fit_sparse() {
         for (int j = 0; j < N; j++) {
             auto pj = sf[j].first;
             auto len = (pi - pj).norm();
-            if (len < 0.2) {
-                tri.push_back({ i, j, kernel(len) });
+            auto fij = kernel(len / rad);
+            if (fij != 0.0) {
+                tri.push_back({ i, j, fij });
             }
         }
         b(i) = sf[i].second;
@@ -212,7 +228,7 @@ func RBF::fit_sparse() {
     Eigen::VectorXd x = solver.solve(b);
     
     func f;
-    f.kernel = this->kernel;
+    f.set_kernel(ker);
     for (int i = 0; i < N; i++) {
         f.coefs.push_back(x(i));
     }

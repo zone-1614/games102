@@ -25,6 +25,7 @@ double kernel1(double x); // x
 double kernel2(double x); // x^3
 double kernel3(double x); // guassian 
 double kernel4(double x); // x^2 log x
+double kernel5(double x); // CSRBF
 
 std::string EigenToString(const Eigen::MatrixXd& mat);
 
