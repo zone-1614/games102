@@ -111,6 +111,7 @@ ball 的参数化
 ![](https://raw.githubusercontent.com/zone-1614/pic/main/img/hw7_%E5%8F%82%E6%95%B0%E5%8C%96_cot%E6%9D%83_face2.png)
 
 > 可以看出来cot权效果还是很不错的, 可以大概看出原来是个什么东西. 之前的cot权长得很奇怪是因为没有clamp, 导致出现了太大/太小/负数的权重.
+> 学了一点DGP之后再回来看, 这个算法属于Tutte方法, 而Tutte方法必须保证内部顶点是1-ring的凸组合, 而负的权重破坏了这一点, 所以参数化的结果就不对
 
 纹理映射
 
